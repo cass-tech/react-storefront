@@ -11,8 +11,9 @@ import {
 import { type MightNotExist } from "@/checkout/lib/globalTypes";
 import { getUrl } from "@/checkout/lib/utils/url";
 import { type PaymentStatus } from "@/checkout/sections/PaymentSection/types";
+import { payfastGatewayId } from "@/checkout/sections/PaymentSection/PayfastElements/types";
 
-export const supportedPaymentGateways = [adyenGatewayId, stripeGatewayId] as const;
+export const supportedPaymentGateways = [adyenGatewayId, stripeGatewayId, payfastGatewayId] as const;
 
 export const getFilteredPaymentGateways = (
 	paymentGateways: MightNotExist<PaymentGateway[]>,

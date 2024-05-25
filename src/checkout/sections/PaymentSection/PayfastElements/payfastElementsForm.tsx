@@ -87,6 +87,7 @@ export function CheckoutForm({
 		setIsLoading(true);
 	}, [
 		anyRequestsInProgress,
+		checkoutUpdateState,
 		checkout.billingAddress?.city,
 		checkout.billingAddress?.country.code,
 		checkout.billingAddress?.countryArea,

@@ -1,9 +1,9 @@
-import Link from "next/link";
 import { NavLink } from "./NavLink";
 import { executeGraphQL } from "@/lib/graphql";
 import { MenuGetBySlugDocument } from "@/gql/graphql";
+import { NavDropdown } from "@/ui/components/nav/components/NavDropdown";
 
-export const NavLinks = async ({ channel }: { channel: string }) => {
+export const NavLinks = async ({ channel, mobile }: { channel: string; mobile?: boolean }) => {
 	const navLinks = await executeGraphQL(MenuGetBySlugDocument, {
 		variables: { slug: "navbar", channel },
 		revalidate: 60 * 60 * 24,
@@ -36,9 +36,14 @@ export const NavLinks = async ({ channel }: { channel: string }) => {
 				}
 				if (item.url) {
 					return (
-						<Link key={item.id} href={item.url}>
+						<NavLink key={item.id} href={item.url}>
 							{item.name}
-						</Link>
+						</NavLink>
+					);
+				}
+				if (item.children && item.children.length > 0) {
+					return (
+						<NavDropdown key={item.id} itemName={item.name} mobile={mobile} itemChildren={item.children} />
 					);
 				}
 				return null;

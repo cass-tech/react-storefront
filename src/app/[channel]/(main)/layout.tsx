@@ -7,14 +7,18 @@ export const metadata = {
 	description: "Starter pack for building performant e-commerce experiences with Saleor.",
 };
 
-export default function RootLayout(props: { children: ReactNode; params: { channel: string } }) {
-	const mainBgImage = process.env.SITE_BACKGROUND == "true" ? " background-image" : "bg-black";
+export default async function RootLayout(props: {
+	children: ReactNode;
+	params: Promise<{ channel: string }>;
+}) {
+	const channel = (await props.params).channel;
+
 	return (
 		<>
-			<Header channel={props.params.channel} />
-			<div className="bg-blue relative flex min-h-screen flex-col">
-				<main className={"relative flex-1 text-neutral-300 " + mainBgImage}>{props.children}</main>
-				<Footer channel={props.params.channel} />
+			<Header channel={channel} />
+			<div className="flex min-h-[calc(100dvh-64px)] flex-col">
+				<main className="flex-1">{props.children}</main>
+				<Footer channel={channel} />
 			</div>
 		</>
 	);

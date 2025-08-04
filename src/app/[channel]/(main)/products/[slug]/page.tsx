@@ -15,15 +15,14 @@ import * as Checkout from "@/lib/checkout";
 import { AvailabilityMessage } from "@/ui/components/AvailabilityMessage";
 
 export async function generateMetadata(
-	{
-		params,
-		searchParams,
-	}: {
-		params: { slug: string; channel: string };
-		searchParams: { variant?: string };
+	props: {
+		params: Promise<{ slug: string; channel: string }>;
+		searchParams: Promise<{ variant?: string }>;
 	},
 	parent: ResolvingMetadata,
 ): Promise<Metadata> {
+	const [searchParams, params] = await Promise.all([props.searchParams, props.params]);
+
 	const { product } = await executeGraphQL(ProductDetailsDocument, {
 		variables: {
 			slug: decodeURIComponent(params.slug),
@@ -74,13 +73,11 @@ export async function generateStaticParams({ params }: { params: { channel: stri
 
 const parser = edjsHTML();
 
-export default async function Page({
-	params,
-	searchParams,
-}: {
-	params: { slug: string; channel: string };
-	searchParams: { variant?: string };
+export default async function Page(props: {
+	params: Promise<{ slug: string; channel: string }>;
+	searchParams: Promise<{ variant?: string }>;
 }) {
+	const [searchParams, params] = await Promise.all([props.searchParams, props.params]);
 	const { product } = await executeGraphQL(ProductDetailsDocument, {
 		variables: {
 			slug: decodeURIComponent(params.slug),
@@ -104,12 +101,12 @@ export default async function Page({
 		"use server";
 
 		const checkout = await Checkout.findOrCreate({
-			checkoutId: Checkout.getIdFromCookies(params.channel),
+			checkoutId: await Checkout.getIdFromCookies(params.channel),
 			channel: params.channel,
 		});
 		invariant(checkout, "This should never happen");
 
-		Checkout.saveIdToCookie(params.channel, checkout.id);
+		await Checkout.saveIdToCookie(params.channel, checkout.id);
 
 		if (!selectedVariantID) {
 			return;

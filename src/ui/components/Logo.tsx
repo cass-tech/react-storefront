@@ -12,7 +12,7 @@ export const Logo = () => {
 			<h1 className="flex items-center font-bold" aria-label="homepage">
 				<Image
 					className="h-16 w-auto"
-					src={"/CK-LOGO-101-Photoroom.svg"}
+					src={`${process.env.SITE_LOGO}`}
 					alt="Caspian King"
 					height={0}
 					width={0}
@@ -25,7 +25,7 @@ export const Logo = () => {
 			<LinkWithChannel aria-label="homepage" href="/pages/home">
 				<Image
 					className="h-16 w-auto"
-					src={"/CK-LOGO-101-Photoroom.svg"}
+					src={`${process.env.SITE_LOGO}`}
 					alt="Caspian King"
 					height={0}
 					width={0}

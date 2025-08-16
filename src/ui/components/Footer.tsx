@@ -89,7 +89,12 @@ export async function Footer({ channel }: { channel: string }) {
 							Saleor
 						</Link>{" "}
 						<Link href={"https://github.com/saleor/saleor"} target={"_blank"} className={"opacity-30"}>
-							<Image alt="Saleor github repository" height={20} width={20} src={"/github-mark.svg"} />
+							<Image
+								alt="Saleor github repository"
+								height={20}
+								width={20}
+								src={`${process.env.GITHUB_ICON}`}
+							/>
 						</Link>
 					</p>
 				</div>

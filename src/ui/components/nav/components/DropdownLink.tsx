@@ -1,12 +1,13 @@
 "use client";
 
 import clsx from "clsx";
+import { type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { LinkWithChannel } from "@/ui/atoms/LinkWithChannel";
 
 type Props = {
 	href: string;
-	children: JSX.Element | string;
+	children: ReactNode | string;
 };
 
 export function DropdownLink(props: Props) {
